@@ -1,16 +1,28 @@
 <?php
-$to = "alvian.em169@gmail.com";
-$subject = "Welcome!";
-$messages = "Selamat Datang Di Rumah Sakit Citra Gading Medika";
-    
-$headers .= "Citra Gading Medika"; //bagian ini diganti sesuai dengan email dari pengirim
-@mail($to, $subject, $messages, $headers, "-fcitragad@gmail.com");
-if(@mail) 
-{
-    echo "pengiriman berhasil";
+$servername = "localhost";
+$username = "citragad_admin";
+$password = "masih diseting";
+$dbname = "citragad_subscribe";
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
+
+$email = $_POST['email'];
+
+$sql = "INSERT INTO subscribe (email)
+VALUES ('$email')";
+
+if ($conn->query($sql) === TRUE) {
+    echo "New record created successfully";
+} else {
+    echo "Error: " . $sql . "<br>" . $conn->error;
 }
-else 
-{
-    echo "pengiriman gagal";
-}
+
+$conn->close();
+
+header('Location:index.php')
 ?>
